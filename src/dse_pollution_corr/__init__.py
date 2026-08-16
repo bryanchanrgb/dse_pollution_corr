@@ -1,2 +1,3 @@
-def main() -> None:
-    print("Hello from dse-pollution-corr!")
+"""Process HKDSE result and timetable PDFs into relational tables."""
+
+__all__ = ["run"]

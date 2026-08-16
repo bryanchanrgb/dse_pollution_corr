@@ -5,15 +5,28 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
+    "duckdb>=1.2.0",
+    "fastapi>=0.115.0",
     "ipykernel>=7.3.0",
+    "langchain>=0.3.20",
+    "langchain-openai>=0.3.8",
     "matplotlib>=3.11.1",
     "pandas>=3.0.5",
     "pdfplumber>=0.11.10",
+    "plotly>=6.0.0",
+    "pydantic-settings>=2.8.0",
+    "python-dotenv>=1.0.1",
+    "pyyaml>=6.0.2",
     "requests>=2.34.2",
+    "uvicorn[standard]>=0.34.0",
 ]
 
 [project.scripts]
 dse-pollution-corr = "dse_pollution_corr:main"
+process-dse-pdfs = "dse_pollution_corr.pipeline:main"
+process-environment = "dse_pollution_corr.etl.environment.process_environment:main"
+load-dse-db = "dse_pollution_corr.db.load_db:main"
+dse-api = "dse_pollution_corr.api.main:run"
 
 [build-system]
 requires = ["uv_build>=0.12.5,<0.13.0"]

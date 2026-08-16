@@ -1,0 +1,50 @@
+tables:
+  category_a_subject_results:
+    description: Category A NSS subject results (5**–U grades). Grain year × candidate_type × subject × gender.
+    readme: data/processed/dse_results/category_a_subject_results.md
+    preferred_filters: [year, candidate_type, gender, is_summary]
+  category_a_csd_results:
+    description: Citizenship and Social Development (Attained/Unattained). From 2024.
+    readme: data/processed/dse_results/category_a_csd_results.md
+  category_b_subject_results:
+    description: Applied Learning (Category B) results with distinction/attained columns.
+    readme: data/processed/dse_results/category_b_subject_results.md
+  category_c_subject_results:
+    description: Other Languages (Category C). grading_scheme varies by year (cambridge_grades, cefr, jlpt, topik).
+    readme: data/processed/dse_results/category_c_subject_results.md
+  written_papers:
+    description: HKDSE written exam timetable sittings.
+    readme: data/processed/dse_timetable/written_papers.md
+  practical_speaking:
+    description: Practical and speaking exam windows.
+    readme: data/processed/dse_timetable/practical_speaking.md
+  air_quality_hourly:
+    description: Hourly AQHI by station.
+    readme: data/processed/environment/README.md
+  air_quality_daily:
+    description: Daily mean/max AQHI by station.
+    readme: data/processed/environment/README.md
+  air_quality_daily_city:
+    description: City-wide daily AQHI aggregates. Join to exam dates on date.
+    readme: data/processed/environment/README.md
+  wind_direction_daily:
+    description: Daily prevailing wind direction (degrees) at King's Park.
+    readme: data/processed/environment/README.md
+
+views:
+  v_exam_calendar:
+    description: Written exam sittings with parsed exam_date (excludes reserve days).
+  v_category_a_performance:
+    description: Simplified Category A columns for trend analysis.
+  v_exam_day_environment:
+    description: Exam sittings joined to city AQHI and wind on exam_date. Use for pollution correlation.
+  v_subject_year_aqhi:
+    description: Subject-year totals with average exam-day city AQHI (gender=total only).
+
+query_hints:
+  - Prefer views over raw tables when they fit the question.
+  - Filter is_summary = false for subject-level analysis unless asking for totals.
+  - candidate_type is day_school or all.
+  - Category C grading_scheme changed in 2025; do not compare raw grade columns across schemes.
+  - pct_* columns are 0–100 percentages, not fractions.
+  - Join exam dates using v_exam_day_environment or v_exam_calendar.exam_date = air_quality_daily_city.date.
