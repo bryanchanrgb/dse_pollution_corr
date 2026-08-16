@@ -22,11 +22,24 @@ dependencies = [
 ]
 
 [project.scripts]
-dse-pollution-corr = "dse_pollution_corr:main"
-process-dse-pdfs = "dse_pollution_corr.pipeline:main"
+dse-pollution-corr = "dse_pollution_corr.etl.pipeline:main"
+process-dse-pdfs = "dse_pollution_corr.etl.pipeline:main"
 process-environment = "dse_pollution_corr.etl.environment.process_environment:main"
 load-dse-db = "dse_pollution_corr.db.load_db:main"
 dse-api = "dse_pollution_corr.api.main:run"
+dse-eval = "dse_pollution_corr.eval_entry:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=6.0",
+    "httpx>=0.28",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/unit", "tests/integration"]
+pythonpath = ["src", "."]
+addopts = "-q"
 
 [build-system]
 requires = ["uv_build>=0.12.5,<0.13.0"]

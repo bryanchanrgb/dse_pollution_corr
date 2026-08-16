@@ -6,7 +6,6 @@ from pathlib import Path
 
 import duckdb
 
-from dse_pollution_corr.etl.environment.process_environment import write_environment_tables
 from dse_pollution_corr.paths import (
     db_dir,
     db_path,
@@ -29,18 +28,12 @@ def _apply_sql_file(conn: duckdb.DuckDBPyConnection, path: Path) -> None:
     conn.execute(path.read_text(encoding="utf-8"))
 
 
-def rebuild_database(
-    *,
-    skip_environment: bool = False,
-    database_path: Path | None = None,
-) -> Path:
+def rebuild_database(*, database_path: Path | None = None) -> Path:
+    """Load existing processed CSVs into DuckDB. Run ETL pipelines first."""
     database_path = database_path or db_path()
     db_dir().mkdir(parents=True, exist_ok=True)
     if database_path.exists():
         database_path.unlink()
-
-    if not skip_environment:
-        write_environment_tables()
 
     conn = duckdb.connect(str(database_path))
     try:

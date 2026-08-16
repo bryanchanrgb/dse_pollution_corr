@@ -8,7 +8,8 @@ from typing import Any
 from langchain_core.tools import tool
 
 from dse_pollution_corr.agent.charts import build_chart
-from dse_pollution_corr.db.catalog import describe_table, list_tables
+from dse_pollution_corr.db.catalog import list_tables
+from dse_pollution_corr.db.schema import describe_table
 from dse_pollution_corr.db.guardrails import run_query
 
 _last_query_result: dict[str, Any] | None = None

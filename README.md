@@ -38,3 +38,13 @@ Open http://localhost:5173 and ask questions about exam performance, exam-day AQ
 Environment tables: `air_quality_hourly`, `air_quality_daily`, `air_quality_daily_city`, `wind_direction_daily`.
 
 Analytical views: `v_exam_calendar`, `v_category_a_performance`, `v_exam_day_environment`, `v_subject_year_aqhi`.
+
+## Testing vs eval
+
+| | `tests/` | `eval/` |
+|---|----------|---------|
+| Goal | Deterministic correctness | Quality / regression scorecard |
+| Pass bar | **100%** | No fixed target |
+| Run | `uv sync --group dev && uv run pytest` | `uv run dse-eval` |
+
+After processing PDFs, run `uv run dse-eval` to spot-check output against manually verified PDF cells. Use `--strict` to fail on any missed check (optional CI gate).

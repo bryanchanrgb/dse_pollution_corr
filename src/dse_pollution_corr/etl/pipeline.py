@@ -8,18 +8,17 @@ from pathlib import Path
 
 import pandas as pd
 
-from .classify import (
+from dse_pollution_corr.etl.dse.classify import (
     RESULTS_SCHEMAS,
     SCHEMA_TIMETABLE_PRACTICAL,
     SCHEMA_TIMETABLE_WRITTEN,
     classify_table,
 )
-from .parse_results import parse_results_table
-from .parse_timetable import parse_practical_table, parse_written_table
-from .paths import processed_dir, results_pdf_dir, timetable_pdf_dir
-from .pdf_extract import extract_pdf
-from .verify import run_checks
-from .write_outputs import save_processed_tables
+from dse_pollution_corr.etl.dse.parsers import parse_results_table
+from dse_pollution_corr.etl.dse.parse_timetable import parse_practical_table, parse_written_table
+from dse_pollution_corr.etl.dse.pdf_extract import extract_pdf
+from dse_pollution_corr.etl.write_outputs import save_processed_tables
+from dse_pollution_corr.paths import processed_dir, results_pdf_dir, timetable_pdf_dir
 
 
 def process_results_pdfs(paths: list[Path] | None = None) -> dict[str, list[dict]]:
@@ -113,13 +112,7 @@ def main() -> None:
     print(f"Wrote {len(written)} tables under {processed_dir()}")
     for name, path in written.items():
         print(f"  {name}: {path}")
-    failures = run_checks()
-    if failures:
-        print("Verification failed:")
-        for item in failures:
-            print(f"  {item}")
-        raise SystemExit(1)
-    print("Verification passed")
+    print("Run `uv run dse-eval` to spot-check processed output.")
 
 
 if __name__ == "__main__":

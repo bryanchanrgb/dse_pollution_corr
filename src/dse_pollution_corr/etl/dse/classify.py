@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from .pdf_extract import RawPage, RawTable
+from dse_pollution_corr.etl.dse.models import RawPage, RawTable
 from .text_utils import cell_str
 
 SCHEMA_CATEGORY_A_LEVELS = "category_a_levels"

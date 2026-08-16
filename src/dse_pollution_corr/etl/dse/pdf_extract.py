@@ -3,37 +3,13 @@
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any
 
 import pdfplumber
 
+from dse_pollution_corr.etl.dse.models import RawDocument, RawPage, RawTable
 
-@dataclass
-class RawTable:
-    index: int
-    rows: list[list[Any]]
-    n_rows: int
-    n_cols: int
-
-
-@dataclass
-class RawPage:
-    page_number: int
-    width: float
-    height: float
-    text: str
-    tables: list[RawTable] = field(default_factory=list)
-
-
-@dataclass
-class RawDocument:
-    path: Path
-    year: int | None
-    kind: str
-    metadata: dict[str, Any]
-    pages: list[RawPage] = field(default_factory=list)
+__all__ = ["RawDocument", "RawPage", "RawTable", "extract_pdf", "infer_kind", "infer_year", "largest_data_table"]
 
 
 def infer_year(path: Path) -> int | None:

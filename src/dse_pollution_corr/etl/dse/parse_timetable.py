@@ -6,7 +6,7 @@ import re
 from datetime import date
 from typing import Any
 
-from .pdf_extract import RawDocument, RawPage, RawTable
+from dse_pollution_corr.etl.dse.models import RawDocument, RawPage, RawTable
 from .text_utils import (
     CJK_RE,
     cell_str,
